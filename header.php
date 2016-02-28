@@ -1,7 +1,7 @@
 <DOCTYPE html>
 	<html>
 		<head>
-			<title>Siapadia.id</title>
+			<title>Responsive Bootstrap Magazine</title>
 			<meta name="viewport" content="widt=device-width, initial-scale=1.0">
 			<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 			<link rel="stylesheet" type="text/css" href="assets/css/style.css">
@@ -9,7 +9,7 @@
 	<body>
 		<div class="container">
 			<div class="main-header">
-				<a href="index.php"> SIAPADIA.ID</a>
+				<a href="index.php">Responsive Bootstrap Magazine</a>
 			</div>
 		</div>	
 		<div class="navbar navbar-inverse navbar-static-top">
