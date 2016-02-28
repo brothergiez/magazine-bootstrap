@@ -15,17 +15,10 @@
 		<div class="navbar navbar-inverse navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
-					<!-- <a href="" class="navbar-brand"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a> -->
 					<div class="search">
 						<input type="text" class="form-control input-sm" maxlength="64" placeholder="Search" />
 					 	<button type="submit" class="btn-search btn btn-success btn-sm">Search</button>
 					</div>
-					<!-- <form class="navbar-form navbar-left search-people" role="search">
-					  	<div class="form-group">
-					    	<input type="text" class="form-control" placeholder="Search">
-					  	</div>
-					  	<button type="submit" class="btn btn-default">Search</button>
-					</form> -->
 					<button class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navHeaderCollapse" aria-expanded="false">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -34,7 +27,8 @@
 				</div>
 				<div class="collapse navbar-collapse navHeaderCollapse">
 					<ul class="nav navbar-nav navbar-right">
-						<!-- <li class="active"><a href="">Tentang Kami</a></li> -->
+						<li class="active"><a href="index.php">Beranda</a></li>
+						<li class=""><a href="">Tentang Kami</a></li>
 						<li class="dropdown">
 				          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kategori <span class="caret"></span></a>
 					        <ul class="dropdown-menu">
