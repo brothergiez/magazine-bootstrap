@@ -41,7 +41,7 @@
 					            <li><a href="#">Lain-lain</a></li>
 					        </ul>
 				        </li>
-						<li><a href="admin/user/login">Akun Saya</a></li>
+						<li><a href="admin/auth">Akun Saya</a></li>
 					</ul>
 				</div>
 			</div>
