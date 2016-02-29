@@ -35,10 +35,10 @@
 		$statement 	= $db->prepare("select * from users");
 		$statement->execute();
 		$row = $statement->fetch();
-		echo "<pre>";
-		print_r($row);
-		echo "</pre>";
-		// $app->render('/body/index.php');
+		// echo "<pre>";
+		// print_r($row);
+		// echo "</pre>";
+		$app->render('/body/index.php');
 	});
 
 	$app->get('/detail', function ()use($app){
