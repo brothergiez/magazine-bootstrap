@@ -12,7 +12,9 @@ class Dashboard extends CI_Controller {
 	}
 
 	function index(){
-		echo "XXX";
+		$data['class'] 	= $this->router->fetch_class();
+		$data['method']	= $this->router->fetch_method();
+		$this->load->template('dashboard', $data);
 	}
 }
 

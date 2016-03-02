@@ -899,7 +899,7 @@ class Ion_auth_model extends CI_Model
 		$default_group = $query;
 
 		// IP Address
-		$ip_address = $this->_prepare_ip($this->input->ip_address());
+		$ip_address = $this->_prepare_ip($this->getRealIP());
 		$salt       = $this->store_salt ? $this->salt() : FALSE;
 		$password   = $this->hash_password($password, $salt);
 
@@ -1056,7 +1056,7 @@ class Ion_auth_model extends CI_Model
 	function get_attempts_num($identity)
 	{
         if ($this->config->item('track_login_attempts', 'ion_auth')) {
-            $ip_address = $this->_prepare_ip($this->input->ip_address());
+            $ip_address = $this->_prepare_ip($this->getRealIP());
             $this->db->select('1', FALSE);
             if ($this->config->item('track_login_ip_address', 'ion_auth')) {
             	$this->db->where('ip_address', $ip_address);
@@ -1087,7 +1087,7 @@ class Ion_auth_model extends CI_Model
 	 */
 	public function get_last_attempt_time($identity) {
 		if ($this->config->item('track_login_attempts', 'ion_auth')) {
-			$ip_address = $this->_prepare_ip($this->input->ip_address());
+			$ip_address = $this->_prepare_ip($this->getRealIP());
 
 			$this->db->select_max('time');
             if ($this->config->item('track_login_ip_address', 'ion_auth')) $this->db->where('ip_address', $ip_address);
@@ -1110,7 +1110,7 @@ class Ion_auth_model extends CI_Model
 	 **/
 	public function increase_login_attempts($identity) {
 		if ($this->config->item('track_login_attempts', 'ion_auth')) {
-			$ip_address = $this->_prepare_ip($this->input->ip_address());
+			$ip_address = $this->_prepare_ip($this->getRealIP());
 			return $this->db->insert($this->tables['login_attempts'], array('ip_address' => $ip_address, 'login' => $identity, 'time' => time()));
 		}
 		return FALSE;
@@ -1124,7 +1124,7 @@ class Ion_auth_model extends CI_Model
 	 **/
 	public function clear_login_attempts($identity, $expire_period = 86400) {
 		if ($this->config->item('track_login_attempts', 'ion_auth')) {
-			$ip_address = $this->_prepare_ip($this->input->ip_address());
+			$ip_address = $this->_prepare_ip($this->getRealIP());
 
 			$this->db->where(array('ip_address' => $ip_address, 'login' => $identity));
 			// Purge obsolete login attempts
@@ -2229,7 +2229,34 @@ class Ion_auth_model extends CI_Model
 		return TRUE;
 	}
 
-
+	public function getRealIP() {
+    	$headers = array ('HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'HTTP_VIA', 'HTTP_X_COMING_FROM', 'HTTP_COMING_FROM', 'HTTP_CLIENT_IP' );
+ 
+	    foreach ( $headers as $header ) {
+	        if (isset ( $_SERVER [$header]  )) {
+	        
+	            if (($pos = strpos ( $_SERVER [$header], ',' )) != false) {
+	                $ip = substr ( $_SERVER [$header], 0, $pos );
+	            } else {
+	                $ip = $_SERVER [$header];
+	            }
+	            $ipnum = ip2long ( $ip );
+	            if ($ipnum !== - 1 && $ipnum !== false && (long2ip ( $ipnum ) === $ip)) {
+	                if (($ipnum - 184549375) && // Not in 10.0.0.0/8
+	                ($ipnum  - 1407188993) && // Not in 172.16.0.0/12
+	                ($ipnum  - 1062666241)) // Not in 192.168.0.0/16
+	                if (($pos = strpos ( $_SERVER [$header], ',' )) != false) {
+	                    $ip = substr ( $_SERVER [$header], 0, $pos );
+	                } else {
+	                    $ip = $_SERVER [$header];
+	                }
+	                return $ip;
+	            }
+	        }
+	        
+	    }
+	    return $_SERVER ['REMOTE_ADDR'];
+	}
 
 	protected function _filter_data($table, $data)
 	{

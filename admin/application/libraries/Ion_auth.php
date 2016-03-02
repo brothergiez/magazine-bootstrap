@@ -147,7 +147,7 @@ class Ion_auth
 					'forgotten_password_code' => $user->forgotten_password_code
 				);
 
-				if(!$this->config->item('use_ci_email', 'ion_auth'))
+				if(!$this->config->item('email_config', 'ion_auth'))
 				{
 					$this->set_message('forgot_password_successful');
 					return $data;
@@ -156,6 +156,9 @@ class Ion_auth
 				{
 					$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_forgot_password', 'ion_auth'), $data, true);
 					$this->email->clear();
+					$config['mailtype'] = ($this->config->item('mailtype', 'ion_auth')) ? $this->config->item('mailtype', 'ion_auth') : 'html'; // mailtype from config
+					$this->email->initialize($config);
+            		$this->email->set_newline("\r\n");
 					$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
 					$this->email->to($user->email);
 					$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_forgotten_password_subject'));
@@ -214,7 +217,7 @@ class Ion_auth
 				'identity'     => $profile->{$identity},
 				'new_password' => $new_password
 			);
-			if(!$this->config->item('use_ci_email', 'ion_auth'))
+			if(!$this->config->item('email_config', 'ion_auth'))
 			{
 				$this->set_message('password_change_successful');
 				$this->ion_auth_model->trigger_events(array('post_password_change', 'password_change_successful'));
@@ -225,6 +228,9 @@ class Ion_auth
 				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_forgot_password_complete', 'ion_auth'), $data, true);
 
 				$this->email->clear();
+				$config['mailtype'] = ($this->config->item('mailtype', 'ion_auth')) ? $this->config->item('mailtype', 'ion_auth') : 'html'; // mailtype from config
+				$this->email->initialize($config);
+        		$this->email->set_newline("\r\n");				
 				$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
 				$this->email->to($profile->email);
 				$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_new_password_subject'));
@@ -342,7 +348,7 @@ class Ion_auth
 				'email'      => $email,
 				'activation' => $activation_code,
 			);
-			if(!$this->config->item('use_ci_email', 'ion_auth'))
+			if(!$this->config->item('email_config', 'ion_auth'))
 			{
 				$this->ion_auth_model->trigger_events(array('post_account_creation', 'post_account_creation_successful', 'activation_email_successful'));
 				$this->set_message('activation_email_successful');
@@ -353,6 +359,9 @@ class Ion_auth
 				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
 
 				$this->email->clear();
+				$config['mailtype'] = ($this->config->item('mailtype', 'ion_auth')) ? $this->config->item('mailtype', 'ion_auth') : 'html'; // mailtype from config
+				$this->email->initialize($config);
+        		$this->email->set_newline("\r\n");				
 				$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
 				$this->email->to($email);
 				$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));
@@ -528,5 +537,6 @@ class Ion_auth
 		 */
 		return $check_all;
 	}
+
 
 }
